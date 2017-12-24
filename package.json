@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/gittristan/drift-chat/issues"
   },
-  "homepage": "https://github.com/gittristan/drift-chat#readme"
+  "homepage": "https://github.com/gittristan/drift-chat#readme",
+  "dependencies": {
+    "requestretry": "^1.12.2"
+  }
 }
