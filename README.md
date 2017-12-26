@@ -4,7 +4,7 @@ Drift Node SDK
 
 ```npm install --save drift-chat```
 
-###Get Contact
+### Get Contact
 
 ```
 const drift = new Drift("--OAuthToken--");
@@ -19,7 +19,7 @@ drift.getContact(id, function(err, statusCode, body) {
 });
 ```
 
-###All Contacts
+### All Contacts
 
 ```
 drift.getAllContacts(function(err, statusCode, body) {
