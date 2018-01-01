@@ -15,20 +15,18 @@ Drift API - Node Wrappers
 #### Get Contact
 
 ```
-drift.getContact(userId, function(err, statusCode, body) {
+drift.getContact(userId, function(err, body) {
     if(err){
         console.log(err);
-    } else {
-        console.log(statusCode);
-        console.log(body);
     }
+    console.log(body);
 });
 ```
 
 #### Get All Contacts
 
 ```
-drift.getAllContacts(function(err, statusCode, body) {
+drift.getAllContacts(function(err, body) {
 ```
 
 ## Conversations API
@@ -36,7 +34,7 @@ drift.getAllContacts(function(err, statusCode, body) {
 #### Get All Messages
 
 ```
-drift.getConvo(message, function(err, statusCode, body) {
+drift.getConvo(message, function(err, body) {
 ```
 
 #### Post Message
@@ -50,7 +48,7 @@ const reply = {
     editType: {delete, replace, replace_body, replace_buttons} (optional)
 }
 
-drift.postMessage(message, reply, function(err, statusCode, body) {
+drift.postMessage(message, reply, function(err, body) {
 ```
 
 ## TODO
