@@ -51,3 +51,9 @@ const reply = {
 
 drift.postMessage(message, reply, function(err, statusCode, body) {
 ```
+
+## TODO
+* Pagination
+* Contacts Search Options (email)
+* Update Contact
+* Contact Tags

@@ -149,20 +149,14 @@ Drift = (function() {
       if (err) {
         callback(err)
       } else {
-        let parsedResponse;
-        try {
-          parsedResponse = JSON.parse(body);
-        } catch (error) {
-          callback(error)
-        }
         if (typeof callback === "function") {
-          callback(err, response.statusCode, parsedResponse);
+          callback(err, response.statusCode, body);
         } else {
           return new Promise((resolve, reject) => {
             if(err){
               return reject(err);
             }
-            resolve(parsedResponse);
+            resolve(body);
           })
         }
       }
