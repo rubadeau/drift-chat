@@ -40,7 +40,7 @@ var Drift = (function() {
     }
   };
 
-  Drift.prototype.getContact = function(id, options, callback) {
+  Drift.prototype.getContact = function (id, options, callback) {
     if (options == null) {
       options = {};
     }
@@ -55,15 +55,14 @@ var Drift = (function() {
     }
     let request_arg = {
       url: 'https://driftapi.com/contacts/' + id,
-      body: options,
       headers: {
         'User-Agent': 'request',
         'Authorization': 'Bearer ' + this.token,
       }
     };
-    request(request_arg)
+    return request(request_arg)
       .then(function (contacts) {
-        if(isCallback){
+        if (isCallback) {
           try {
             parsedResponse = JSON.parse(contacts);
           } catch (err) {
@@ -71,32 +70,26 @@ var Drift = (function() {
           }
           callback(null, parsedResponse.statusCode, parsedResponse);
         } else {
-          return new Promise((resolve, reject) => {
-            if(err){
-              return reject(err);
-            }
-            try {
-              parsedResponse = JSON.parse(contacts);
-            } catch (err) {
-              return reject(err);
-            }
-            resolve(parsedResponse);
-          })
+          if (err) {
+            throw new Error(err);
+          }
+          try {
+            parsedResponse = JSON.parse(contacts);
+          } catch (err) {
+            return Promise.reject(err);
+          }
+
+          return Promise.resolve(parsedResponse);
         }
       })
       .catch(function (err) {
-        if(isCallback){
+        if (isCallback) {
           callback(err);
         } else {
-          return new Promise((resolve, reject) => {
-            return reject(err);
-          })
+          return new Promise.reject(err);
         }
       });
-
-    return this;
-  };
-
+  }
 
   Drift.prototype.getConvo = function(message, options, callback) {
     if (options == null) {
