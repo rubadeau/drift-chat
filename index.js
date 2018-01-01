@@ -1,15 +1,7 @@
-request = require("requestretry");
-
-var DEFAULT_MAX_ATTEMPTS = 3;
-var DEFAULT_TIMEOUT = 10 * 1000;
-var Drift;
-var request;
-
-Drift = (function() {
+var request = require("request-promise");
+var Drift = (function() {
   function Drift(token) {
     this.token = token;
-    this.timeout = DEFAULT_TIMEOUT;
-    this.maxAttempts = DEFAULT_MAX_ATTEMPTS;
     this.url = 'https://driftapi.com/'
   }
 
@@ -56,35 +48,52 @@ Drift = (function() {
       callback = options;
       options = {};
     }
+    let isCallback = false;
+    let parsedResponse;
+    if (typeof callback === "function") {
+      isCallback = true;
+    }
     let request_arg = {
       url: 'https://driftapi.com/contacts/' + id,
+      body: options,
       headers: {
         'User-Agent': 'request',
         'Authorization': 'Bearer ' + this.token,
       }
     };
-    request(request_arg, function(err, response, body) {
-      if (err) {
-        callback(err)
-      } else {
-        let parsedResponse;
-        try {
-          parsedResponse = JSON.parse(body);
-        } catch (error) {
-          callback(error)
-        }
-        if (typeof callback === "function") {
-          callback(err, response.statusCode, parsedResponse);
+    request(request_arg)
+      .then(function (contacts) {
+        if(isCallback){
+          try {
+            parsedResponse = JSON.parse(contacts);
+          } catch (err) {
+            callback(err)
+          }
+          callback(null, parsedResponse.statusCode, parsedResponse);
         } else {
           return new Promise((resolve, reject) => {
             if(err){
               return reject(err);
             }
+            try {
+              parsedResponse = JSON.parse(contacts);
+            } catch (err) {
+              return reject(err);
+            }
             resolve(parsedResponse);
           })
         }
-      }
-    });
+      })
+      .catch(function (err) {
+        if(isCallback){
+          callback(err);
+        } else {
+          return new Promise((resolve, reject) => {
+            return reject(err);
+          })
+        }
+      });
+
     return this;
   };
 
