@@ -1,15 +1,20 @@
 # Drift Chat
 
-Drift Node SDK
+Drift API - Node Wrappers
+*All calls support both Callbacks (shown) or Promises.*
 
-```npm install --save drift-chat```
+### Config
 
-### Get Contact
+`npm install --save drift-chat`
+
+`const drift = new Drift("--OAuthToken--");`
+
+## Contacts API
+
+#### Get Contact
 
 ```
-const drift = new Drift("--OAuthToken--");
-
-drift.getContact(id, function(err, statusCode, body) {
+drift.getContact(userId, function(err, statusCode, body) {
     if(err){
         console.log(err);
     } else {
@@ -19,15 +24,30 @@ drift.getContact(id, function(err, statusCode, body) {
 });
 ```
 
-### All Contacts
+#### Get All Contacts
 
 ```
 drift.getAllContacts(function(err, statusCode, body) {
-    if(err){
-        console.log(err);
-    } else {
-        console.log(statusCode);
-        console.log(body);
-    }
-});
+```
+
+## Conversations API
+
+#### Get All Messages
+
+```
+drift.getConvo(message, function(err, statusCode, body) {
+```
+
+#### Post Message
+
+```
+const reply = {
+    body: string (optional),
+    buttons: [(Message Button)] (optional),
+    type: {chat, private_note, private_prompt, edit},
+    editedMessageId: int (optinal),
+    editType: {delete, replace, replace_body, replace_buttons} (optional)
+}
+
+drift.postMessage(message, reply, function(err, statusCode, body) {
 ```

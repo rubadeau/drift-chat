@@ -34,6 +34,13 @@ Drift = (function() {
           }
           if (typeof callback === "function") {
             callback(err, response.statusCode, parsedResponse);
+          } else {
+            return new Promise((resolve, reject) => {
+              if(err){
+                return reject(err);
+              }
+              resolve(parsedResponse);
+            })
           }
         }
       });
@@ -68,6 +75,95 @@ Drift = (function() {
         }
         if (typeof callback === "function") {
           callback(err, response.statusCode, parsedResponse);
+        } else {
+          return new Promise((resolve, reject) => {
+            if(err){
+              return reject(err);
+            }
+            resolve(parsedResponse);
+          })
+        }
+      }
+    });
+    return this;
+  };
+
+
+  Drift.prototype.getConvo = function(message, options, callback) {
+    if (options == null) {
+      options = {};
+    }
+    if (typeof options === "function") {
+      callback = options;
+      options = {};
+    }
+    let request_arg = {
+      url: 'https://driftapi.com/v1/conversations/' + message.body.data.conversationId.toString() + '/messages',
+      headers: {
+        'User-Agent': 'request',
+        'Authorization': 'Bearer ' + this.token,
+      }
+    };
+    request(request_arg, function(err, response, body) {
+      if (err) {
+        callback(err)
+      } else {
+        let parsedResponse;
+        try {
+          parsedResponse = JSON.parse(body);
+        } catch (error) {
+          callback(error)
+        }
+        if (typeof callback === "function") {
+          callback(err, response.statusCode, parsedResponse);
+        } else {
+          return new Promise((resolve, reject) => {
+            if(err){
+              return reject(err);
+            }
+            resolve(parsedResponse);
+          })
+        }
+      }
+    });
+    return this;
+  };
+
+  Drift.prototype.postMessage = function(message, options, callback) {
+
+    if(!options.orgId){
+      options.orgId = message.body.orgId
+    }
+
+    let request_arg = {
+      method: 'POST',
+      url: 'https://driftapi.com/v1/conversations/' + message.body.data.conversationId.toString() + '/messages',
+      body: options,
+      json: true,
+      headers: {
+        'User-Agent': 'request',
+        'Authorization': 'Bearer ' + this.token,
+      }
+    };
+    request(request_arg, function(err, response, body) {
+      if (err) {
+        callback(err)
+      } else {
+        let parsedResponse;
+        try {
+          parsedResponse = JSON.parse(body);
+        } catch (error) {
+          callback(error)
+        }
+        if (typeof callback === "function") {
+          callback(err, response.statusCode, parsedResponse);
+        } else {
+          return new Promise((resolve, reject) => {
+            if(err){
+              return reject(err);
+            }
+            resolve(parsedResponse);
+          })
         }
       }
     });
