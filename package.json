@@ -1,6 +1,6 @@
 {
   "name": "drift-chat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Drift Node SDK.",
   "main": "index.js",
   "scripts": {

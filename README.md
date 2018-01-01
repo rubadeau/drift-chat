@@ -1,8 +1,8 @@
 # Drift Chat
 
-Drift API - Node Wrappers
+Drift API - Node Wrappers -
 
-*All calls support both Callbacks (shown) or Promises.*
+*All calls support both Callbacks or Promises.*
 
 ### Config
 
@@ -13,6 +13,10 @@ Drift API - Node Wrappers
 ## Contacts API
 
 #### Get Contact
+
+```
+drift.getContact(userId).then((body) => console.log(body)).catch((err) => console.log(err));
+````
 
 ```
 drift.getContact(userId, function(err, body) {
@@ -26,7 +30,7 @@ drift.getContact(userId, function(err, body) {
 #### Get All Contacts
 
 ```
-drift.getAllContacts(function(err, body) {
+drift.getAllContacts( function(err, body) {
 ```
 
 ## Conversations API
