@@ -5,7 +5,7 @@ var Drift = (function() {
     this.url = 'https://driftapi.com/'
   }
 
-  Drift.prototype.getAllContacts = function (callback) {
+  Drift.prototype.getAllContacts = function(callback) {
     let isCallback = false;
     let parsedResponse;
     if (typeof callback === "function") {
@@ -19,7 +19,7 @@ var Drift = (function() {
       }
     };
     return request(request_arg)
-      .then(function (contacts) {
+      .then(function(contacts) {
         if (isCallback) {
           try {
             parsedResponse = JSON.parse(contacts);
@@ -36,7 +36,7 @@ var Drift = (function() {
           return Promise.resolve(parsedResponse);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -45,7 +45,7 @@ var Drift = (function() {
       });
   };
 
-  Drift.prototype.getContact = function (id, options, callback) {
+  Drift.prototype.getContact = function(id, options, callback) {
     if (options == null) {
       options = {};
     }
@@ -66,7 +66,7 @@ var Drift = (function() {
       }
     };
     return request(request_arg)
-      .then(function (contact) {
+      .then(function(contact) {
         if (isCallback) {
           try {
             parsedResponse = JSON.parse(contact);
@@ -83,7 +83,7 @@ var Drift = (function() {
           return Promise.resolve(parsedResponse);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -113,7 +113,7 @@ var Drift = (function() {
       }
     };
     return request(request_arg)
-      .then(function (convo) {
+      .then(function(convo) {
         if (isCallback) {
           try {
             parsedResponse = JSON.parse(convo);
@@ -130,7 +130,7 @@ var Drift = (function() {
           return Promise.resolve(parsedResponse);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -141,7 +141,7 @@ var Drift = (function() {
 
   Drift.prototype.postMessage = function(message, options, callback) {
 
-    if(!options.orgId){
+    if (!options.orgId) {
       options.orgId = message.body.orgId
     }
     let isCallback = false;
@@ -159,14 +159,14 @@ var Drift = (function() {
       }
     };
     return request(request_arg)
-      .then(function (chat) {
+      .then(function(chat) {
         if (isCallback) {
           callback(null, chat);
         } else {
           return Promise.resolve(chat);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -177,7 +177,7 @@ var Drift = (function() {
 
   Drift.prototype.oauth = function(options, callback) {
 
-    if(!options.grantType){
+    if (!options.grantType) {
       options.grantType = 'authorization_code'
     }
     let isCallback = false;
@@ -191,14 +191,14 @@ var Drift = (function() {
       json: true,
     };
     return request(request_arg)
-      .then(function (tokenObj) {
+      .then(function(tokenObj) {
         if (isCallback) {
           callback(null, tokenObj);
         } else {
           return Promise.resolve(tokenObj);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -209,7 +209,7 @@ var Drift = (function() {
 
   Drift.prototype.refreshToken = function(options, callback) {
 
-    if(!options.grantType){
+    if (!options.grantType) {
       options.grantType = 'refresh_token'
     }
     let isCallback = false;
@@ -223,14 +223,14 @@ var Drift = (function() {
       json: true,
     };
     return request(request_arg)
-      .then(function (tokenObj) {
+      .then(function(tokenObj) {
         if (isCallback) {
           callback(null, tokenObj);
         } else {
           return Promise.resolve(tokenObj);
         }
       })
-      .catch(function (err) {
+      .catch(function(err) {
         if (isCallback) {
           callback(err);
         } else {
@@ -238,7 +238,6 @@ var Drift = (function() {
         }
       });
   };
-
 
   return Drift;
 })();

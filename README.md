@@ -12,10 +12,14 @@ Drift API - Node Wrappers -
 
 ## Contacts API
 
-#### Get Contact
+#### Get Contact - Promise
 
 ```
-drift.getContact(userId).then((body) => console.log(body)).catch((err) => console.log(err));
+drift.getContact(userId)
+  .then((body) =>
+    console.log(body))
+  .catch((err) =>
+    console.log(err));
 ````
 
 ```
@@ -30,7 +34,7 @@ drift.getContact(userId, function(err, body) {
 #### Get All Contacts
 
 ```
-drift.getAllContacts( function(err, body) {
+drift.getAllContacts() =>
 ```
 
 ## Conversations API
@@ -38,7 +42,7 @@ drift.getAllContacts( function(err, body) {
 #### Get All Messages
 
 ```
-drift.getConvo(message, function(err, body) {
+drift.getConvo(message) =>
 ```
 
 #### Post Message
@@ -52,13 +56,13 @@ const reply = {
     editType: {delete, replace, replace_body, replace_buttons} (optional)
 }
 
-drift.postMessage(message, reply, function(err, body) {
+drift.postMessage(message, reply) =>
 ```
 
 ## OAuth2
 
 #### Handshake Example
-https://devdocs.drift.com/docs/authentication-and-scopes
+[Drift Docs](https://devdocs.drift.com/docs/authentication-and-scopes)
 
 ```
 router.get('/oauth', (req, res) => {
@@ -80,7 +84,7 @@ router.get('/oauth', (req, res) => {
 ```
 
 #### Refresh Token Example
-https://devdocs.drift.com/docs/authentication-and-scopes#section-3-refresh-your-tokens
+[Drift Docs](https://devdocs.drift.com/docs/authentication-and-scopes#section-3-refresh-your-tokens)
 
 ```
 const options = {
