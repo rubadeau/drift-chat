@@ -22,15 +22,6 @@ drift.getContact(userId)
     console.log(err));
 ````
 
-```
-drift.getContact(userId, function(err, body) {
-    if(err){
-        console.log(err);
-    }
-    console.log(body);
-});
-```
-
 #### Get All Contacts
 
 ```
@@ -65,21 +56,26 @@ drift.postMessage(message, reply) =>
 [Drift Docs](https://devdocs.drift.com/docs/authentication-and-scopes)
 
 ```
-router.get('/oauth', (req, res) => {
+bot.get('/oauth', (req, res) => {
+  const drift = new Drift();
   const options = {
     clientId: process.env.CLIENTID,
     clientSecret: process.env.DRIFTKEY,
     code: req.query.code,
-    grantType: 'authorization_code',
   };
-  drift.oauth(options,function(err,driftToken){
+
+  drift.oauth(options, async function(err,driftToken){
     if(err){
       console.log(err);
     } else {
-      team.driftToken = driftToken;
-      team.id = driftToken.orgId;
-      team.save();
-  })
+      const teamObj = {
+        orgId: driftToken.orgId,
+        driftToken: driftToken
+      };
+      const team = await Team.update({orgId: driftToken.orgId},teamObj,{upsert:true, setDefaultsOnInsert: true});
+      console.log(team)
+    }
+  });
 });
 ```
 
@@ -92,6 +88,7 @@ const options = {
   clientSecret: process.env.DRIFTKEY,
   refreshToken: team.driftToken.refreshToken
 };
+
 drift.refreshToken(options,function(err,driftToken){
   if(err){
     console.log(err);
