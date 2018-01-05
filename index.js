@@ -175,6 +175,71 @@ var Drift = (function() {
       });
   };
 
+  Drift.prototype.oauth = function(options, callback) {
+
+    if(!options.grantType){
+      options.grantType = 'authorization_code'
+    }
+    let isCallback = false;
+    if (typeof callback === "function") {
+      isCallback = true;
+    }
+    let request_arg = {
+      method: 'POST',
+      url: 'https://driftapi.com/oauth2/token',
+      body: options,
+      json: true,
+    };
+    return request(request_arg)
+      .then(function (tokenObj) {
+        if (isCallback) {
+          callback(null, tokenObj);
+        } else {
+          return Promise.resolve(tokenObj);
+        }
+      })
+      .catch(function (err) {
+        if (isCallback) {
+          callback(err);
+        } else {
+          return Promise.reject(err);
+        }
+      });
+  };
+
+  Drift.prototype.refreshToken = function(options, callback) {
+
+    if(!options.grantType){
+      options.grantType = 'refresh_token'
+    }
+    let isCallback = false;
+    if (typeof callback === "function") {
+      isCallback = true;
+    }
+    let request_arg = {
+      method: 'POST',
+      url: 'https://driftapi.com/oauth2/token',
+      body: options,
+      json: true,
+    };
+    return request(request_arg)
+      .then(function (tokenObj) {
+        if (isCallback) {
+          callback(null, tokenObj);
+        } else {
+          return Promise.resolve(tokenObj);
+        }
+      })
+      .catch(function (err) {
+        if (isCallback) {
+          callback(err);
+        } else {
+          return Promise.reject(err);
+        }
+      });
+  };
+
+
   return Drift;
 })();
 
