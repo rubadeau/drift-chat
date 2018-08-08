@@ -139,6 +139,53 @@ var Drift = (function() {
       });
   };
 
+  Drift.prototype.getConversation = function(message, options, callback) {
+    if (options == null) {
+      options = {};
+    }
+    if (typeof options === "function") {
+      callback = options;
+      options = {};
+    }
+    let isCallback = false;
+    let parsedResponse;
+    if (typeof callback === "function") {
+      isCallback = true;
+    }
+    let request_arg = {
+      url: 'https://driftapi.com/v1/conversations/' + message.body.data.conversationId.toString(),
+      headers: {
+        'User-Agent': 'request',
+        'Authorization': 'Bearer ' + this.token,
+      }
+    };
+    return request(request_arg)
+      .then(function(convo) {
+        if (isCallback) {
+          try {
+            parsedResponse = JSON.parse(convo);
+          } catch (err) {
+            callback(err)
+          }
+          callback(null, parsedResponse);
+        } else {
+          try {
+            parsedResponse = JSON.parse(convo);
+          } catch (err) {
+            return Promise.reject(err);
+          }
+          return Promise.resolve(parsedResponse);
+        }
+      })
+      .catch(function(err) {
+        if (isCallback) {
+          callback(err);
+        } else {
+          return Promise.reject(err);
+        }
+      });
+  };
+
   Drift.prototype.postMessage = function(message, options, callback) {
 
     if (!options.orgId) {
