@@ -92,6 +92,53 @@ var Drift = (function() {
       });
   }
 
+  Drift.prototype.getUser = function(id, options, callback) {
+    if (options == null) {
+      options = {};
+    }
+    if (typeof options === "function") {
+      callback = options;
+      options = {};
+    }
+    let isCallback = false;
+    let parsedResponse;
+    if (typeof callback === "function") {
+      isCallback = true;
+    }
+    let request_arg = {
+      url: 'https://driftapi.com/users/' + id,
+      headers: {
+        'User-Agent': 'Request-Promise',
+        'Authorization': 'Bearer ' + this.token,
+      }
+    };
+    return request(request_arg)
+      .then(function(user) {
+        if (isCallback) {
+          try {
+            parsedResponse = JSON.parse(user);
+          } catch (err) {
+            callback(err)
+          }
+          callback(null, parsedResponse);
+        } else {
+          try {
+            parsedResponse = JSON.parse(user);
+          } catch (err) {
+            return Promise.reject(err);
+          }
+          return Promise.resolve(parsedResponse);
+        }
+      })
+      .catch(function(err) {
+        if (isCallback) {
+          callback(err);
+        } else {
+          return Promise.reject(err);
+        }
+      });
+  }
+
   Drift.prototype.getConvo = function(message, options, callback) {
     if (options == null) {
       options = {};
